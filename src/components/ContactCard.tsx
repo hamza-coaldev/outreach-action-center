@@ -2,7 +2,7 @@
 import React from "react";
 import { Contact } from "@/lib/types";
 import StatusBadge from "./StatusBadge";
-import { Briefcase, MapPin } from "lucide-react";
+import { Briefcase, MapPin, Clock, TrendingUp } from "lucide-react";
 
 interface ContactCardProps {
   contact: Contact;
@@ -37,14 +37,25 @@ const ContactCard = ({ contact, onClick }: ContactCardProps) => {
             <div className="flex justify-between items-start">
               <h3 className="font-semibold text-gray-900">{contact.name}</h3>
               
-              {contact.hasUpdate && (
-                <span className="bg-green-500 h-2 w-2 rounded-full" title="Has updates"></span>
-              )}
+              <div className="flex space-x-1">
+                {contact.hasUpdate && (
+                  <span className="bg-green-500 h-2 w-2 rounded-full" title="Has updates"></span>
+                )}
+                {contact.jobChanged && (
+                  <span className="bg-blue-500 h-2 w-2 rounded-full" title="Job changed"></span>
+                )}
+              </div>
             </div>
             
             <div className="mt-1 flex items-center text-sm text-gray-500">
               <Briefcase className="h-3 w-3 mr-1" />
               <span>{contact.title}</span>
+              {contact.jobChanged && (
+                <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  <TrendingUp className="h-2 w-2 mr-0.5" />
+                  New
+                </span>
+              )}
             </div>
             
             <div className="mt-1 flex items-center text-sm text-gray-500">
@@ -57,8 +68,15 @@ const ContactCard = ({ contact, onClick }: ContactCardProps) => {
         <div className="mt-4 flex justify-between items-center">
           <StatusBadge status={contact.status} />
           
-          <div className="text-xs text-gray-500">
-            {contact.lastActivity && `Last activity: ${contact.lastActivity}`}
+          <div className="text-xs text-gray-500 flex items-center">
+            {contact.connectionDate ? (
+              <>
+                <Clock className="h-3 w-3 mr-1" />
+                {contact.connectionDate}
+              </>
+            ) : (
+              contact.lastActivity && `Last activity: ${contact.lastActivity}`
+            )}
           </div>
         </div>
       </div>

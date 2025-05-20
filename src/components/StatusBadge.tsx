@@ -1,7 +1,7 @@
 
 import React from "react";
 import { StatusType } from "@/lib/types";
-import { Clock, Send, UserPlus, CheckCircle } from "lucide-react";
+import { Clock, Send, UserPlus, CheckCircle, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
@@ -32,6 +32,13 @@ const StatusBadge = ({ status, className }: StatusBadgeProps) => {
           bgColor: "bg-green-100",
           textColor: "text-green-600",
           icon: <UserPlus className="h-3 w-3 mr-1" />,
+        };
+      case "talking":
+        return {
+          label: "Talking",
+          bgColor: "bg-yellow-100",
+          textColor: "text-yellow-600",
+          icon: <MessageSquare className="h-3 w-3 mr-1" />,
         };
       case "replied":
         return {

@@ -1,24 +1,40 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Contact, StatusType } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import StatusBadge from "./StatusBadge";
 import { 
   X, Mail, Linkedin, Phone, Calendar, 
   Clock, Send, UserPlus, CheckCircle,
-  Briefcase, MapPin, ExternalLink
+  Briefcase, MapPin, ExternalLink, MessageSquare,
+  TrendingUp
 } from "lucide-react";
 
 interface ContactDetailProps {
   contact: Contact;
   onClose: () => void;
   updateStatus: (contactId: string, status: StatusType) => void;
+  updateConnectionDate?: (contactId: string, date: string) => void;
 }
 
-const ContactDetail = ({ contact, onClose, updateStatus }: ContactDetailProps) => {
+const ContactDetail = ({ 
+  contact, 
+  onClose, 
+  updateStatus,
+  updateConnectionDate 
+}: ContactDetailProps) => {
+  const [connectionDate, setConnectionDate] = useState(contact.connectionDate || "");
+  
   const handleStatusChange = (newStatus: StatusType) => {
     updateStatus(contact.id, newStatus);
+  };
+  
+  const handleConnectionDateChange = () => {
+    if (updateConnectionDate) {
+      updateConnectionDate(contact.id, connectionDate);
+    }
   };
 
   return (
@@ -51,6 +67,12 @@ const ContactDetail = ({ contact, onClose, updateStatus }: ContactDetailProps) =
               <div className="mt-1 flex items-center text-gray-600">
                 <Briefcase className="h-4 w-4 mr-1" />
                 <span>{contact.title}</span>
+                {contact.jobChanged && (
+                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <TrendingUp className="h-3 w-3 mr-1" />
+                    New position
+                  </span>
+                )}
                 <span className="mx-2">•</span>
                 <MapPin className="h-4 w-4 mr-1" />
                 <span>{contact.company}</span>
@@ -191,6 +213,16 @@ const ContactDetail = ({ contact, onClose, updateStatus }: ContactDetailProps) =
                 </button>
                 
                 <button 
+                  onClick={() => handleStatusChange("talking")}
+                  className={`w-full flex items-center p-2 rounded-md ${
+                    contact.status === "talking" ? "bg-gray-100" : "hover:bg-gray-50"
+                  }`}
+                >
+                  <MessageSquare className="h-4 w-4 mr-2 text-gray-500" />
+                  <span>Talking</span>
+                </button>
+                
+                <button 
                   onClick={() => handleStatusChange("replied")}
                   className={`w-full flex items-center p-2 rounded-md ${
                     contact.status === "replied" ? "bg-gray-100" : "hover:bg-gray-50"
@@ -203,14 +235,25 @@ const ContactDetail = ({ contact, onClose, updateStatus }: ContactDetailProps) =
             </Card>
             
             <Card className="p-4 mb-6">
-              <h3 className="font-semibold mb-3">Schedule Follow-up</h3>
-              <div className="text-center p-4">
-                <Calendar className="h-8 w-8 mx-auto text-gray-400" />
-                <p className="mt-2 text-sm text-gray-600">
-                  Set a reminder to follow up with this contact
-                </p>
-                <Button className="w-full mt-3" variant="outline">
-                  Schedule Reminder
+              <h3 className="font-semibold mb-3">Connection Date</h3>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <Calendar className="h-4 w-4 text-gray-500 mr-2" />
+                  <Input
+                    type="date"
+                    value={connectionDate}
+                    onChange={(e) => setConnectionDate(e.target.value)}
+                    className="text-sm"
+                  />
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={handleConnectionDateChange}
+                  disabled={!connectionDate}
+                >
+                  Save Date
                 </Button>
               </div>
             </Card>

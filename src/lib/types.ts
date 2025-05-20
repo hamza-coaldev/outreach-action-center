@@ -1,5 +1,5 @@
 
-export type StatusType = "no-action" | "connection-sent" | "connected" | "replied";
+export type StatusType = "no-action" | "connection-sent" | "connected" | "replied" | "talking";
 
 export interface Activity {
   title: string;
@@ -23,10 +23,25 @@ export interface Contact {
   campaignId: string;
   campaignName: string;
   addedDate: string;
+  jobChanged?: boolean;
+  connectionDate?: string;
 }
 
 export interface Campaign {
   id: string;
   name: string;
   count: number;
+}
+
+export interface StatusCount {
+  status: StatusType;
+  count: number;
+}
+
+export interface FilterOptions {
+  status?: StatusType | null;
+  jobChanged?: boolean;
+  hasUpdate?: boolean;
+  campaign?: string | null;
+  searchQuery?: string;
 }
