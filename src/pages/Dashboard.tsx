@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import CampaignStats from "@/components/CampaignStats";
 import StatusChart from "@/components/StatusChart";
+import LeadConversionChart from "@/components/LeadConversionChart";
 import { campaigns } from "@/data/mockData";
 import { Campaign, StatusCount, StatusType } from "@/lib/types";
 import { useState } from "react";
