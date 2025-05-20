@@ -1,7 +1,8 @@
 
 import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Filter, ChevronUp, ChevronDown } from "lucide-react";
+import { Plus, Filter, ChevronUp, ChevronDown, BarChart3 } from "lucide-react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import ContactCard from "@/components/ContactCard";
@@ -134,9 +135,17 @@ const Index = () => {
         <div className={`flex-1 p-6 ${showSidebar ? 'ml-64' : ''} transition-all duration-300`}>
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">Lead Engagement Dashboard</h1>
-            <Button className="bg-indigo-600 hover:bg-indigo-700">
-              <Plus className="mr-2 h-4 w-4" /> Add Lead
-            </Button>
+            <div className="flex space-x-2">
+              <Link to="/dashboard">
+                <Button variant="outline" className="mr-2">
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  Campaign Analytics
+                </Button>
+              </Link>
+              <Button className="bg-indigo-600 hover:bg-indigo-700">
+                <Plus className="mr-2 h-4 w-4" /> Add Lead
+              </Button>
+            </div>
           </div>
           
           <div className="flex justify-between items-center mb-6">
